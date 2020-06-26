@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Searching DOM</title>
+  </head>
+  <body>
+    <div id="elem">
+      <div id="elem-content">Actual content here</div>
+    </div>
+
+    <ul id="list" class="list">
+      <li>The</li>
+      <li>test</li>
+    </ul>
+    <ul class="secondList list">
+      <li>has</li>
+      <li>passed</li>
+    </ul>
+
+    <!-- matches -->
+    <a href="http://example.com/file.zip">zip file link</a>
+    <a href="http://ya.ru">Simple link</a>
+
+    <!-- closest -->
+    <h1>Contents</h1>
+
+    <div class="contents">
+      <ul class="book">
+        <li class="chapter">Chapter 1</li>
+        <li class="chapter">Chapter 1</li>
+      </ul>
+    </div>
+
+    <form action="" name="form-elem">
+      <input type="text" />
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <script>
+      // elem is a reference to DOM-element with id="elem"
+      elem.style.backgroundColor = "red";
+      // ! special case
+      window["elem-content"].style.color = "white"; // :D
+      // let elem = document.getElementById("elem")
+      let elemContent = document.getElementById("elem-content");
+      elemContent.style.color = "blue";
+
+      // querySelectorAll
+      /*
+       * elem.querySelectorAll(css) returns all elements
+       * inside elem matching the given css selector.
+       */
+
+      let elements = document.querySelectorAll("ul > li:last-child");
+      console.log(elements);
+      for (let elem of elements) {
+        console.log(elem.innerHTML);
+      }
+
+      let hoverElem = document.querySelectorAll(":hover");
+      console.log(hoverElem);
+
+      // selecting the element which has id="list"
+      let list = document.querySelector("#list");
+
+      console.log(list);
+
+      let secondList = document.querySelector(".secondList");
+      console.log(secondList);
+
+      // elem.matches(css) does not look for anything. it mere checks
+      // if elem matches the given css selectors.
+      // it returns true or false
+
+      for (let elem of document.body.children) {
+        if (elem.matches('a[href$="zip"]'))
+          alert(`The archive reference: ${elem.href}`);
+      }
+      console.log("list class");
+
+      for (let elem of document.body.children) {
+        if (elem.matches(".list")) {
+          console.log(elem);
+        }
+        let data = elem.matches(".list");
+        console.log(data);
+      }
+
+      // closest - elem.closest(CSS)
+
+      // Ancestors of an element are: parent, the parent of parent, its parent and so on. The ancestors together form the chain of parents from the element to the top.
+
+      //The method elem.closest(css) looks the nearest ancestor that matches the CSS-selector. The elem itself is also included in the search.
+
+      //In other words, the method closest goes up from the element and checks each of parents. If it matches the selector, then the search stops, and the ancestor is returned.
+      let chapter = document.querySelectorAll(".chapter");
+
+      console.log(chapter[0].closest(".book"));
+      console.log(chapter[0].closest(".contents"));
+      console.log(chapter[0].closest("h1"));
+
+      let elCon = document.querySelector("#elem-content");
+      console.log(elCon.closest("#elem"));
+
+      let gEBCN = document.getElementsByClassName("list");
+
+      console.log(gEBCN);
+
+      let gEBTN = document.getElementsByTagName("ul");
+      console.log(gEBTN);
+
+      let gEBN = document.getElementsByName("form-elem");
+      console.log(gEBN);
+
+      let gebn = document.querySelector("form[name='form-elem']");
+      console.log(gebn);
+
+      console.log(elem.contains(elemContent));
+      
+    </script>
+  </body>
+</html>

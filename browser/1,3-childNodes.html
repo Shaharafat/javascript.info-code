@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChildNOdes</title>
+  </head>
+  <body>
+    <div>Begin</div>
+
+    <ul id="list">
+      <li>Information</li>
+      <li>dummy1</li>
+      <li>dummy2</li>
+      <li>dummy3</li>
+      <li>dummy4</li>
+      <li>dummy5</li>
+    </ul>
+
+    <!-- table -->
+
+    <table id="table">
+      <thead>
+        <th>Name</th>
+        <th>Roll</th>
+        <th>Marks</th>
+      </thead>
+
+      <tbody id="tbody">
+        <tr id="tr1">
+          <td>Arafat</td>
+          <td>354</td>
+          <td>89</td>
+        </tr>
+        <tr id="tr2">
+          <td>Arafat</td>
+          <td id="cell">354</td>
+          <td id="cell2">89</td>
+        </tr>
+        <tr id="tr3">
+          <td>Arafat</td>
+          <td>354</td>
+          <td>89</td>
+        </tr>
+        <tr>
+          <td>Arafat</td>
+          <td>354</td>
+          <td>89</td>
+        </tr>
+        <tr>
+          <td>Arafat</td>
+          <td>354</td>
+          <td>89</td>
+        </tr>
+      </tbody>
+    </table>
+    <div>End</div>
+    <script>
+      for (let i = 0; i < document.body.childNodes.length; i++) {
+        console.log(document.body.childNodes[i]);
+      }
+
+      // properties "firstChild" and "lastChild" give fast
+      // access to the first and last children.
+
+      // console.log(document.body.childNodes);
+
+      let list = document.getElementById("list");
+      // console.log(list.childNodes.firstChild === list.childNodes[0]);
+      console.log(list.childNodes[0] === list.firstChild);
+
+      console.log(
+        list.childNodes[list.childNodes.length - 1] === list.lastChild
+      );
+      console.log("childNodes is a collection. not and array.");
+
+      //! array methods wont work. use for..of loop. or Array.from to make
+      // an array.
+      for (let node of list.childNodes) {
+        console.log(node);
+      }
+
+      let listArr = Array.from(list.childNodes);
+      console.log(listArr);
+      console.log("from lsitArray");
+
+      listArr.filter((x) => console.log(x));
+
+      // ? parentNode nextSibling previousSibling
+      console.log(document.body.parentNode == document.documentElement);
+      console.log(document.head.nextSibling);
+      console.log(document.body.previousSibling);
+
+      console.log(list.children);
+      console.log(document.body.children);
+
+      // why parent element
+      console.log(document.documentElement.parentNode);
+      console.log(document.documentElement.parentElement);
+
+      // table
+      let table = document.getElementById("table");
+      console.log(table.rows);
+      console.log(table.tHead);
+      console.log(table.tBodies);
+
+      //  console.log(tr.cells);
+      let tbody = document.getElementById("tbody");
+
+      let tr1 = document.getElementById("tr1");
+      //  console.log(tr1);
+
+      console.log(tr1.cells);
+      console.log(tr1.cells[2]);
+      console.log(tr1.sectionRowIndex);
+
+      let tr2 = document.getElementById("tr2");
+      console.log(tr2.sectionRowIndex);
+      console.log(tr1.rowIndex);
+      console.log(tr2.rowIndex);
+
+      console.log(tbody.rows[0].cells[1]);
+
+      console.log(tbody.lastChild.nextSibling);
+      console.log(tbody.children[0].previousSibling);
+      
+
+      console.log(table.rows[0].cells[0]);
+      let cell = document.getElementById("cell")
+      console.log(cell.cellIndex);
+      let cell2 = document.getElementById("cell2")
+      console.log(cell2.cellIndex);
+      
+      
+    </script>
+
+    <!-- The laset element shown is <script>. In fact the document has
+    more stuff below. but at the moment of the script execution 
+  the browser did not read it yet, so the script dowsn't see it. -->
+    <section class="sec-1">section</section>
+    <section class="sec-2">section2</section>
+    <section class="sec-3">section3</section>
+    <section class="sec-4">section4</section>
+    <section class="sec-5">section5</section>
+  </body>
+</html>

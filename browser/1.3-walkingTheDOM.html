@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- A script cannot access an element that dowsn't exist
+     at the moment of running -->
+
+    <!-- In particular, if a script is inside <head> , then document.body is unavailable, because the browser did not read it yet. -->
+    <script> 
+      alert("From HEAD: " + document.body); // in DOM, null means doesn't exist
+    </script>
+  </head>
+  <body>
+    <script>
+      alert("From body " + document.body);
+    </script>
+  </body>
+</html>
