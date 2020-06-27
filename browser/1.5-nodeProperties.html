@@ -1,0 +1,152 @@
+<!-- ✅ The "node type " property -->
+<!-- 
+  ✅ elem.nodeType == 1 -> for element nodes
+  ✅ elem.nodeType == 2 -> for text nodes
+  ✅ elem.nodeType == 1 -> for document object
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Node type</title>
+    <style>
+      body {
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <p>A paragraph</p>
+    <div>A div</div>
+    <!-- 👁 testing outerHTML on it -->
+    <div id="divOuter">Hello,world</div>
+
+    <script>
+      let elem = document.body;
+
+      console.log(elem);
+      console.log(elem.nodeType); // ❗️ 1==element
+
+      // first child
+      console.log(elem.firstChild);
+      console.log(elem.firstChild.nodeType); // ❗️ 3==text
+
+      // document object
+      console.log(document.nodeType); // ❗️ 9 == document object
+
+      console.log(elem instanceof Comment);
+      console.log(elem instanceof Text);
+      console.log(elem instanceof Element);
+
+      // 👁 we can read nodeType. not change it.
+
+      // ✅ nodeName and tagName
+
+      /*
+       * ❓ Is there any difference between tagName and nodeName?
+       * Sure, the difference is reflected in their names, but is indeed a bit subtle.
+
+       * The tagName property exists only for Element nodes.
+       * The nodeName is defined for any Node:
+          * for elements it means the same as tagName.
+          * for other node types (text, comment, etc.) it has a string with the node type.
+      */
+      console.log(elem.firstChild.tagName); // ❌ undefined. because it is a text node.
+      console.log(elem.firstChild.nodeName); // ✅ #text
+
+      console.log(" ❌ " + document.tagName); // ❌ undefined
+      console.log(" ✅ " + document.nodeName); // ✅ #document
+
+      // ❗️ In HTML mode tag/node name is always uppercase "BODY"
+      console.log(` 👁 ${elem.tagName} is uppercased.`);
+
+      // ✅ innerHTML : the contents
+      // ❗️ innerHTML property allows to get the HTML element
+      // ❗️ 👁 as a string. we can also modify it.
+
+      // console.log(elem.innerHTML); // 👁 whole body content
+      elem.innerHTML = "The new BODY";
+      console.log(elem.innerHTML); // ✅ replace it.
+
+      // ❌ we can try to insert invalid HTML.
+      // the browser will fix our errors.
+
+      elem.innerHTML = `<b>test`;
+      // 👁 browser will fix the error I did in above line.
+      console.log(elem.innerHTML);
+
+      // 👁 👁 if innerHTML inserts a script tag into document.
+      // it becomes a part of HTML, but doesn't execute.
+
+      // ❌ ❌ don't use elem.innerHTML += "..."
+      // it does a full overwrite.
+
+      // ✅ outerHTML:  property contains the full HTML of the element.
+      // That's like innerHTML plus the element itself.
+      console.log(elem.outerHTML);
+
+      /*
+         * Beware: unlike innerHTML, writing to outerHTML does not change the element. Instead, it replaces it in the DOM.
+
+         * Yeah, sounds strange, and strange it is, that’s why we make a separate note about it here. Take a look.
+
+        * So what happened in div.outerHTML=... is:
+
+        * div was removed from the document.
+        * Another piece of HTML <p>A new element</p> was inserted in its place.
+        * div still has its old value. The new HTML wasn’t saved to any variable.
+
+         */
+
+      elem.innerHTML = `<b id="boldTxt" hidden>Test</b>
+      <div id="divOuter">Hello world!</div>`;
+
+      let divs = document.querySelector("#divOuter");
+      console.log(divs.outerHTML);
+      divs.outerHTML = `<p id="newElem">Changing using outerHTML</p>`;
+      console.log(elem.innerHTML);
+      let newElem = document.querySelector("#newElem");
+      console.log(newElem);
+
+      newElem.style.color = "yellow";
+
+      // // 👁 divs is no more n the DOM tree.
+      divs.innerHTML = "hey";
+      console.log(elem.innerHTML);
+      console.log(divs);
+
+      // ✅ nodeValue/ data : text node content.
+      // ❗️❗️ Other node types, such as text nodes, have their counterpart: 
+      // nodeValue and data properties. These two are almost the same for 
+      //practical use, there are only minor specification differences. So we’ll 
+      // use data, because it’s shorter.
+
+      let text = elem.firstChild;
+      console.log(text.firstChild.data); // data from <b> element
+      text.firstChild.data = "editing using node value" // 👁
+      console.log(text.firstChild.data);
+      
+      // ✅ textContent : pure Text
+      // ❗️ The textContent provides access to the text inside the element: 
+      // only text, minus all <tags>.
+
+        console.log(elem.textContent); // 👁
+        console.log(text.firstChild.textContent);
+        text.firstChild.textContent = "<p> just a paragraph inserting using textContent</p>"
+        console.log(text.firstChild.textContent);
+        console.log(text);
+        
+        console.log(elem.innerHTML);
+        let btxt = document.querySelector("#boldTxt")
+        console.log(btxt);
+        
+        btxt.hidden=true;
+
+        // 👁 A blinking element.
+        setInterval(()=>btxt.hidden = !btxt.hidden,600)
+      
+    </script>
+  </body>
+</html>
