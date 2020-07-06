@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ol id="elem">
+      <li>Hello</li>
+      <li>World</li>
+    </ol>
+
+    <script>
+      // function clear(elem) { /* your code */
+      //   elem.remove();
+      // }
+      // console.log(elem.childNodes);
+
+      function clear(elem) {
+        // 👇 wont work.
+
+        // for (let i = 0; i < elem.childNodes.length; i++) {
+        //   // console.log(elem.childNodes[i]);
+        //   elem.childNodes[i].remove();
+        // }
+
+        while(elem.firstChild){
+          elem.firstChild.remove()
+        }
+
+        // or apply this 👇
+        // elem.innerHTML = '';
+      }
+      clear(elem); // clears the list
+
+
+
+
+
+      // ✅ another solution using innerHTML
+
+    //   function createTreeText(obj) { // standalone recursive function
+    //   let li = '';
+    //   let ul;
+    //   for (let key in obj) {
+    //     li += '<li>' + key + createTreeText(obj[key]) + '</li>';
+    //   }
+    //   if (li) {
+    //     ul = '<ul>' + li + '</ul>'
+    //   }
+    //   return ul || '';
+    // }
+    </script>
+  </body>
+</html>

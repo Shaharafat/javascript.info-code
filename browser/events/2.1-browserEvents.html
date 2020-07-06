@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- Event Handler in HTML attribute -->
+    <input type="button" value="Click me!" onclick="alert('Click')" />
+
+    <!-- HTML attribute calling function when event occurs -->
+    <input type="button" onclick="countRabbits()" value="Count Rabbits" />
+
+    <!-- handling event using DOM propert  -->
+    <input type="button" id="elem" value="Click me" />
+
+    <!-- 👀 Accessing the element : this. This refers the element itself. -->
+    <button onclick="alert(this.innerHTML)">Click Me!</button>
+
+    <button id="testEvent">Click Me!</button>
+
+    <!-- object Handlers -->
+    <button id="objHandle">Object Handler</button>
+
+    <script>
+      function countRabbits() {
+        for (let i = 1; i <= 3; i++) {
+          alert(`Rabbit Numbers ${i} `);
+        }
+      }
+
+      let elem = document.querySelector("#elem");
+      elem.onclick = function () {
+        alert("Thank You");
+      };
+
+      elem.onclick = function () {
+        alert("after");
+      };
+
+      // ✋ note that
+      /*
+       * // right
+          button.onclick = sayThanks;
+
+        // wrong
+          button.onclick = sayThanks();
+        👇 on the mark we need the parenthesis.
+        <input type="button" id="button" onclick="sayThanks()">
+
+        👆 => 👇
+        button.onclick = function() {
+            sayThanks(); // <-- the attribute content goes here
+          };
+      */
+
+      // ✅ eventListener can add multiple events in an element.
+
+      // 👀 Event Object
+      /*
+       * To properly handle an event we’d want to know more about what’s happened. Not just a “click” or a “keydown”, but what were the pointer coordinates? Which key was pressed? And so on.
+
+       * When an event happens, the browser creates an event object, puts details into it and passes it as an argument to the handler.
+      */
+
+      let testEvent = document.querySelector("#testEvent");
+      testEvent.addEventListener("click", function (event) {
+        console.log(event);
+        console.log(`event type : ${event.type}`);
+        console.log(`event currentTarget : ${event.currentTarget}`);
+        console.log(`event.clientX/Y : ${event.clientX} | ${event.clientY}`);
+      });
+
+
+      // Object Handlers : handleEvent
+      let objHandle = document.querySelector('#objHandle')
+      let obj = {
+        handleEvent(event){
+          switch(event.type){
+            case "mousedown":{
+              objHandle.innerHTML = "Mouse Pressed"
+              break;
+            }
+            case "mouseup":{
+              objHandle.innerHTML += "...Mouse released"
+            }
+          }
+        }
+      }
+      objHandle.addEventListener('mousedown',obj)
+      objHandle.addEventListener('mouseup',obj)
+    </script>
+  </body>
+</html>

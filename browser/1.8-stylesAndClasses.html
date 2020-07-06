@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Styles and classes</title>
+    <style>
+      body {
+        height: 100vh;
+      }
+      #shape{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: green;
+        height: 12em;
+        width: 300px;
+      }
+      #shape .circle{
+        height: 90px;
+        width: 90px;
+        background-color: red;
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body class="main page">
+    <div id="shape">
+      <div class="circle"></div>
+    </div>
+
+    <script>
+      // 👁 the className attribute shows the whole className
+      console.log(document.body.className);
+
+      // 👀 the classList attribute shows the class name as List.
+      console.log(document.body.classList);
+      // ✅ adding new class using classList.add('new class')
+      console.log(document.body.classList.add("article"));
+
+      console.log(document.body.classList);
+
+      document.body.addEventListener("click", () => {
+        document.body.classList.toggle("new");
+        console.log(document.body);
+      });
+
+      // ✅ classList is iterable. so we can list all classes with for...of loop.
+      for(let name of document.body.classList){ // 👀 iterate classList
+        console.log(name);
+      }
+
+      document.body.style.backgroundColor = "rgba(0,0,0,.7)"
+
+      // ✅ full css style
+      let div = document.createElement('div')
+      div.className = 'box'
+      div.textContent = "Hello, from div"
+      document.body.append(div)
+      div.style.cssText = `
+        color: red;
+        width:50%;
+        height:50vh;
+        background-color: yellow;
+        font-family:'sans-serif';
+        font-size: 2rem;
+        font-weight:500;
+
+        display: flex;
+        justify-content: center;
+        align-items:center;
+      `;
+
+      // 👀 ✅ getComputedStyles
+      /*
+       * So, modifying a style is easy. But how to read it?
+
+       * For instance, we want to know the size, margins, the color of an element. How to do it?
+
+       * The style property operates only on the value of the "style" attribute, without any CSS cascade.
+
+       * So we can’t read anything that comes from CSS classes using elem.style.
+      */
+      
+      let computedStyles = getComputedStyle(document.querySelector("#shape"))
+      console.log(computedStyles.height) // ✅ styles from css styles
+      console.log(computedStyles.width)
+
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      #field {
+        width: 200px;
+        height: 150px;
+        border: 10px solid black;
+        background-color: #00ff00;
+        overflow: hidden;
+        position: relative;
+        left: 0;
+        top: 0;
+        cursor: pointer;
+      }
+
+      #ball {
+        position: relative;
+        transition: all 0.5s ease-in-out;
+      }
+    </style>
+  </head>
+
+  <body style="height: 2000px;">
+    Click on a field to move the ball there.
+    <br />
+    The ball should never leave the field.
+
+    <div id="field">
+      <img src="https://en.js.cx/clipart/ball.svg" id="ball" /> . . . . . . . .
+      . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+      . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+      . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+      . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+      . . . . . . . . . . . . . . . . . . . . .
+    </div>
+
+    <script>
+      let field = document.querySelector("#field");
+      let ball = document.querySelector("#ball");
+      let fieldCoord = field.getBoundingClientRect();
+
+      // event listener
+      field.addEventListener("click", moveTheBall);
+
+      // function
+      function moveTheBall(event) {
+        let ballCoord = {
+          left:
+            event.clientX -
+            fieldCoord.left -
+            field.clientLeft -
+            ball.offsetWidth / 2,
+          top:
+            event.clientY -
+            fieldCoord.top -
+            field.clientTop -
+            ball.offsetWidth / 2,
+        };
+
+        // 👇 preventing from going out of field
+        if (event.clientX < fieldCoord.left + field.clientLeft) {
+          ballCoord.left = 0;
+        }
+
+        if (event.clientY < fieldCoord.top + field.clientTop) {
+          ballCoord.top = 0;
+        }
+
+        // controlling right and bottom side
+        if (
+          event.clientX >
+          fieldCoord.left + field.clientLeft + field.clientWidth
+        ) {
+          ballCoord.left = field.clientWidth - ball.offsetWidth;
+        }
+
+        if (
+          event.clientY >
+          fieldCoord.top + field.clientTop + field.clientHeight
+        ) {
+          ballCoord.top = field.clientHeight - ball.offsetHeight;
+        }
+
+        ball.style.left = `${ballCoord.left}px`;
+        ball.style.top = `${ballCoord.top}px`;
+        ball.style.right = `${ballCoord.right}px`;
+      }
+    </script>
+  </body>
+</html>

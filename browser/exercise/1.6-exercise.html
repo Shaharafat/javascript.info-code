@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div data-widget-name="menu">Choose the genre</div>
+
+    <!-- ❓ Make external links orange -->
+    <a name="list">the list</a>
+    <ul>
+      <li><a href="http://google.com">http://google.com</a></li>
+      <li><a href="/tutorial">/tutorial.html</a></li>
+      <li><a href="local/path">local/path</a></li>
+      <li><a href="ftp://ftp.com/my.zip">ftp://ftp.com/my.zip</a></li>
+      <li><a href="http://nodejs.org">http://nodejs.org</a></li>
+      <li><a href="http://internal.com/test">http://internal.com/test</a></li>
+    </ul>
+
+    <script>
+      // 👀 Write the code to select the element with data-widget-name attribute from the document and to read its value. 👇
+      let div = document.querySelector("[data-widget-name]"); // ✅ css selector
+      console.log(div.dataset.widgetName);
+      // or
+      console.log(div.getAttribute("data-widget-name"));
+
+      /*
+        Make all external links orange by altering their style property.
+
+        A link is external if:
+
+        Its href has :// in it
+        But doesn’t start with http://internal.com.
+      */
+
+      let links = document.querySelectorAll("a[href*='://']");
+      for (link of links) {
+        // console.log(typeof link.href);
+
+        // 👀 regexp for filtering
+        // let txt = "http://internal.com";
+        // console.log(txt);
+        // let patt = /^(http:\/\/internal.com)/g;
+        // console.log(patt.test(txt));
+
+        let href = link.getAttribute("href");
+        if (href.startsWith("http://internal.com")) continue;
+
+        link.style.color = "orange";
+      }
+    </script>
+  </body>
+</html>

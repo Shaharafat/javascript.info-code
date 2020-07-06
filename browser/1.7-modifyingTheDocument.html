@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .alert,
+      .red-alert {
+        padding: 15px;
+        border: 1px solid #d6e9c6;
+        border-radius: 4px;
+        color: #3c763d;
+        background-color: #dff0d8;
+        font-family: sans-serif;
+      }
+
+      .red-alert {
+        color: red;
+        background-color: rgb(243, 183, 183);
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="alert">
+      <strong>Hi there!</strong> You've read an important message.
+    </div>
+
+    <ol id="ol">
+      <li>0</li>
+      <li>1</li>
+      <li>2</li>
+    </ol>
+
+    <div id="first">First</div>
+    <div id="second">Second</div>
+
+    <!-- DocumentFragment inserted on it -->
+    <ul id="ul"></ul>
+    <script>
+      // ✅ creating message div using DOM
+      let div = document.createElement("div");
+      div.className = "red-alert";
+      div.innerHTML =
+        "<strong>Hi there!</strong> You've read an important message.";
+      // 👀 We’ve created the element. But as of now
+      // it’s only in a variable named div, not in the page yet.
+      // So we can’t see it.
+
+      /*
+       * To make the div show up, we need to insert it somewhere into document. For instance, into <body> element, referenced by document.body.
+
+       * There’s a special method append for that: document.body.append(div).
+      */
+      document.body.append(div);
+
+      /*
+       * Here are more insertion methods, they specify different places where to insert:
+
+          * node.append(...nodes or strings) – append nodes or strings at the end of node,
+          * node.prepend(...nodes or strings) – insert nodes or strings at the beginning of node,
+          * node.before(...nodes or strings) –- insert nodes or strings before node,
+          * node.after(...nodes or strings) –- insert nodes or strings after node,
+          * node.replaceWith(...nodes or strings) –- replaces node with the given nodes or strings.
+          * Arguments of these methods are an arbitrary list of DOM nodes to insert, or text strings (that become text nodes automatically).
+      */
+
+      let ol = document.querySelector("#ol");
+      console.log(ol);
+
+      ol.before("before"); // insert string "before <ol>"
+      ol.after("after"); // insert string 'after' after <ol>
+      let liFirst = document.createElement("li");
+      liFirst.innerHTML = "prepend";
+      ol.prepend(liFirst);
+
+      let liLast = document.createElement("li");
+      liLast.innerHTML = "append";
+      ol.append(liLast);
+
+      // replace with node.replaceWith(node)
+      //  ol.replaceWith(div)
+
+      // 👀 these methods can insert multiple nodes and text pieces in a single call.
+
+      div.before("<p>Hello</p>", document.createElement("hr"));
+
+      /*
+       * For that we can use another, pretty versatile method: elem.insertAdjacentHTML(where, html).
+
+        The first parameter is a code word, specifying where to insert relative to elem. Must be one of the following:
+        * "beforebegin" – insert html immediately before elem,
+        * "afterbegin" – insert html into elem, at the beginning,
+        * "beforeend" – insert html into elem, at the end,
+        * "afterend" – insert html immediately after elem.
+      */
+
+      /* 👀 👇
+       * The method has two brothers:
+
+       * elem.insertAdjacentText(where, text) – the same syntax, but a string of text is inserted “as text” instead of HTML,
+       * elem.insertAdjacentElement(where, elem) – the same syntax, but inserts an element. 👇
+      */
+
+      div.insertAdjacentHTML("beforebegin", "<p>Hello</p>"); // treats as normal HTML.
+
+      div.insertAdjacentHTML("afterbegin", "<p>afterbegin</p>");
+      div.insertAdjacentHTML("beforeend", "<p>beforeend</p>");
+
+      div.insertAdjacentHTML("afterend", "hello only text"); // 👀 only text supported also.
+
+      div.insertAdjacentHTML("afterend", '<a href="#">Link</a>');
+
+      // ✅ alternative variant of showing a message
+      div.insertAdjacentHTML(
+        "afterend",
+        `<br><div class="alert"><strong>Hi there!</strong> You've read an important message.</div>`
+      ); // ✅ backticks
+
+      // 👀 node removal
+
+      let alert = document.createElement("div");
+      alert.className = "signal";
+      alert.style.color = "red";
+      alert.innerHTML = `be alert`;
+
+      document.body.append(alert);
+
+      setTimeout(() => {
+        alert.remove(); // removing node.
+      }, 6000);
+
+      // 👀  we want to move an element to another place – there’s no need to remove it from the old one.
+
+      second.after(first);
+
+      // 👀 Sometimes when we have a big element, that may be faster and simpler.
+
+      // The call elem.cloneNode(true) creates a “deep” clone of the element –
+      // with all attributes and subelements. If we call elem.cloneNode(false),
+      // then the clone is made without child elements.
+
+      let div2 = div.cloneNode(true); // ✅ cloning node
+      div2.querySelector("strong").innerHTML = "Bye there!";
+      div.after(div2);
+
+      // 👀 ✋  DocumentFragment
+      /*
+       DocumentFragment is a special DOM node that serves as a wrapper to pass around lists of nodes.
+
+        We can append other nodes to it, but when we insert it somewhere, then its content is inserted instead.
+      */
+
+      let ul = document.querySelector("#ul");
+
+      console.log(ul);
+      
+      function getListContent() {
+        let fragment = new DocumentFragment();
+        for (let i = 1; i <= 3; i++) {
+          let li = document.createElement("li");
+          li.append(i);
+          fragment.append(li);
+        }
+        return fragment;
+      }
+      ul.append(getListContent());
+
+       setTimeout(() => document.write('<b>...By this.</b>'), 1000);
+    </script>
+  </body>
+</html>

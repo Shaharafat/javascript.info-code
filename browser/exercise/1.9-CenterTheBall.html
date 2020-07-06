@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <style>
+    #field {
+      width: 200px;
+      border: 10px groove black;
+      background-color: #00FF00;
+      position: relative;
+    }
+
+    #ball {
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div id="field">
+    <img src="https://en.js.cx/clipart/ball.svg" id="ball"> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  </div>
+
+  <!-- my code -->
+  <script>
+    let field = document.querySelector('#field')
+    let ball = document.querySelector('#ball')
+
+    console.log(ball.offsetParent);
+    
+    // center position of field
+    let fieldXCenter = field.clientWidth/2;
+    let fieldYCenter = field.clientHeight/2;
+
+    // center of the ball
+    let ballXCenter = ball.clientWidth/2;
+    let ballYCenter = ball.clientHeight/2;
+
+
+    // ball.scrollLeft = `${fieldXCenter}px`
+    ball.style.left = `${fieldXCenter - ballXCenter}px`;
+    ball.style.top = ` ${fieldYCenter - ballYCenter}px`;
+    console.log(ballXCenter);
+    
+    
+  </script>
+</body>
+
+</html>

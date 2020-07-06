@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Element sizing and scrolling</title>
+    <style>
+      #example {
+        width: 300px;
+        height: 200px;
+        border: 25px solid #e8c48f;
+        padding: 20px;
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <main style="position: relative;" id="main">
+      <article>
+        <div id="example" style="position: absolute; left: 180px; top: 180px;">
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A, eligendi quia? Nostrum iure natus, maxime eum, et libero accusamus, eligendi facere ducimus ex quia sunt accusantium laborum ad nihil porro officiis nesciunt delectus mollitia eius molestiae! Voluptatum, harum, corporis consectetur quos minima id totam illum nam alias explicabo, minus ratione ullam sint aliquid earum iusto dolor voluptate velit excepturi nulla labore consequuntur accusantium eos! Tempore hic voluptates totam corporis debitis, dicta sed voluptatibus pariatur voluptas natus ipsum aliquam porro, dolor repellendus ut neque, dolore quia eos cumque suscipit eveniet officiis dolores? Asperiores facere eveniet voluptatem cumque possimus! Quia odio quasi nobis id commodi ex, voluptatibus neque iste eligendi nihil autem aliquid quaerat libero quo enim illo earum iure provident porro dignissimos aperiam quis. Doloribus optio distinctio rem tempore eius! Totam aliquam expedita fugiat quae, nam rem nostrum nulla nobis quam fuga veritatis fugit itaque quos aspernatur magni voluptate maxime. Culpa error recusandae veritatis eveniet, tempore nemo aspernatur sequi itaque facilis, quaerat sint corporis aut, fugiat vero molestias? Natus deleniti, ducimus, eos, dolores laborum a voluptatem incidunt sit officia reiciendis inventore rerum debitis fuga repudiandae totam autem aut nemo sunt neque consequuntur delectus voluptatum ab. Laborum recusandae incidunt rem, architecto minima quam, id dolor officia nobis saepe veritatis? Inventore tempora at molestiae tenetur voluptates ut dolores deleniti sequi aperiam, sint, nam quos. Maxime recusandae adipisci dolorum quidem ut blanditiis possimus nostrum optio enim nobis neque amet ea, nemo, sequi dicta laborum perferendis! Provident praesentium voluptatibus velit voluptatum delectus repellat earum expedita neque. Nisi, doloribus? Magnam laudantium tempora praesentium incidunt libero architecto ipsam ducimus laboriosam rem, placeat assumenda voluptatem molestiae perspiciatis officia dolore sit non esse! Obcaecati quasi corrupti placeat at tempore alias voluptatum eos facere nobis voluptate amet aliquam fuga repellat omnis itaque, accusamus nam unde corporis vero velit quidem labore!</p>
+        </div>
+      </article>
+    </main>
+
+    <script>
+      
+      let example = document.querySelector("#example");
+
+      /*
+       * 👀 offsetParent, offsetLeft/Top
+       * These properties are rarely needed, but still they are the “most outer” geometry properties, so we’ll start with them.
+
+          * The offsetParent is the nearest ancestor that the browser uses for calculating coordinates during rendering.
+
+          * That’s the nearest ancestor that is one of the following:
+
+          * CSS-positioned (position is absolute, relative, fixed or sticky), or
+          <td>, <th>, or <table>, or
+          <body>.
+
+      * There are several occasions when offsetParent is null:
+
+          * For not shown elements (display:none or not in the document).
+          * For <body> and <html>.
+          * For elements with position:fixed.      
+       */
+
+      console.log(example.offsetParent.id);
+      console.log(example.offsetLeft);
+      console.log(example.offsetTop);
+
+
+      // 👀 Offset height/width
+      /*
+       * These two properties are the simplest ones. They provide the “outer” width/height of the element. Or, in other words, 
+       * its full size including borders.
+      */
+      console.log(example.offsetWidth);
+      console.log(example.offsetHeight);
+      
+
+      /* 👀
+       * Geometry properties are zero/null for elements that are not displayed
+       *Geometry properties are calculated only for displayed elements.
+
+       * If an element (or any of its ancestors) has display:none or is not in the document, then all geometry properties are zero (or null for offsetParent).
+       */
+      // checking if an element is hidden like this
+
+      function isHidden(elem){
+        return !elem.offsetWidth && !elem.offsetHeight;
+      }
+
+      // 👀 clien top/left
+      /**
+       * Inside the element we have the borders.
+
+       * To measure them, there are properties clientTop and clientLeft. 
+      */
+
+      console.log(`clientTop: ${example.clientTop}`);
+
+      console.log(`clientLeft: ${example.clientLeft}`);
+      
+      // 👀 client height/width
+
+      /* 
+       * These properties provide the size of the area inside the element borders.
+
+       * They include the content width together with paddings, but without the scrollbar:
+      */
+
+      console.log(`clientWidth: ${example.clientWidth}`);
+      console.log(`clientHeight: ${example.clientHeight}`);
+
+      // 👀 scroll width/height
+      /* 
+       * These properties are like clientWidth/clientHeight, but they also include the scrolled out parts.
+      */
+      console.log(`scrollHeight : ${example.scrollHeight}`);
+      console.log(`scrollWidth : ${example.scrollWidth}`);
+      
+      // 👀 scroll left/top
+
+      /*
+       * Properties scrollLeft/scrollTop are the width/height of the hidden, scrolled out part of the element
+      */
+
+      // ✋ scrollTop/scrollLeft can be modified.
+      console.log(`scrollLeft : ${example.scrollLeft}`);
+      console.log(`scrollTop : ${example.scrollTop}`);
+      
+      
+      // exercise scrollBotton
+      let scrollBottom;
+      
+      console.log(scrollBottom);
+      example.addEventListener('scroll',()=>{
+        // console.log(example.scrollTop);
+        scrollBottom = example.scrollHeight - ( example.scrollTop + example.clientHeight )
+        console.log(scrollBottom);
+      })
+
+      // exercise scrollbar width
+      scrollBarWidth = example.offsetWidth - ((example.clientLeft * 2) + example.clientWidth)
+      console.log(scrollBarWidth);
+      
+    </script>
+  </body>
+</html>
