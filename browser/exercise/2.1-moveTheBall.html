@@ -60,32 +60,29 @@
         };
 
         // 👇 preventing from going out of field
-        if (event.clientX < fieldCoord.left + field.clientLeft) {
+        if (ballCoord.left < 0) {
           ballCoord.left = 0;
         }
 
-        if (event.clientY < fieldCoord.top + field.clientTop) {
+        if (ballCoord.top < 0) {
           ballCoord.top = 0;
         }
 
         // controlling right and bottom side
         if (
-          event.clientX >
-          fieldCoord.left + field.clientLeft + field.clientWidth
+         ballCoord.left + ball.offsetWidth > field.clientWidth 
         ) {
-          ballCoord.left = field.clientWidth - ball.offsetWidth;
+          ballCoord.left = field.clientWidth - ball.clientWidth;
         }
 
         if (
-          event.clientY >
-          fieldCoord.top + field.clientTop + field.clientHeight
+          ballCoord.top + ball.offsetHeight > field.clientHeight
         ) {
-          ballCoord.top = field.clientHeight - ball.offsetHeight;
+          ballCoord.top = field.clientHeight - ball.clientWidth;
         }
 
         ball.style.left = `${ballCoord.left}px`;
         ball.style.top = `${ballCoord.top}px`;
-        ball.style.right = `${ballCoord.right}px`;
       }
     </script>
   </body>

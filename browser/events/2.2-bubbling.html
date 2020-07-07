@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body onclick="alert('from body')">
+    <div onclick="alert('from div')">
+      <p onclick="alert('from p'),event.stopPropagation()">
+        Lorem ipsum dolor sit amet.
+        <span onclick="alert('from span')"
+          >from span Lorem ipsum dolor sit amet.</span
+        >
+      </p>
+    </div>
+
+    <div onclick="console.dir(event.stopPropagation())">
+      <p onclick="alert('from p')">
+        Lorem ipsum dolor sit amet.
+        <span onclick="alert('from span')"
+          >from span Lorem ipsum dolor sit amet.</span
+        >
+      </p>
+    </div>
+
+    <!-- capturing -->
+    <!-- 
+      There’s another phase of event processing called “capturing”. It is rarely used in real code, but sometimes can be useful.
+
+      The standard DOM Events describes 3 phases of event propagation:
+
+      Capturing phase – the event goes down to the element.
+      Target phase – the event reached the target element.
+      Bubbling phase – the event bubbles up from the element.
+    -->
+
+    <form>
+      FORM
+      <div>
+        DIV
+        <p>P</p>
+      </div>
+    </form>
+
+    <script>
+      for(let elem of document.querySelectorAll('*')){
+        elem.addEventListener('click',e=>{
+          alert(`Capturing ${elem.tagName}`)
+        },true)
+        elem.addEventListener('click',e=>{
+          alert(`bubbling ${elem.tagName}`)
+        })
+      }
+    </script>
+  </body>
+</html>
