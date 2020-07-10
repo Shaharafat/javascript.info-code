@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="menu">
+      <button data-action="save">Save</button>
+      <button data-action="load">Load</button>
+      <button data-action="search">Search</button>
+    </div>
+
+    <script>
+      let menu = document.querySelector("#menu");
+
+
+      /*
+       * 👀 Please note that this.onClick is bound to this in (*). That’s important, because otherwise this inside it would reference the DOM element (elem), not the Menu object, and this[action] would not be what we need. 
+      */
+      class Menu {
+        constructor(elem) {
+          console.log(this);
+          
+          elem.onclick = this.onClick.bind(this);
+        }
+
+        save() {
+          alert("saving...");
+        }
+
+        load() {
+          alert("loading...");
+        }
+
+        search() {
+          alert("searching...");
+        }
+
+        onClick(event) {
+          let action = event.target.dataset.action;
+          if (action) {
+            this[action]();
+          }
+        }
+      }
+
+      new Menu(menu)
+    </script>
+  </body>
+</html>

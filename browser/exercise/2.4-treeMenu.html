@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      .hidden {
+        display: none;
+      }
+
+      span:hover {
+        font-weight: bold;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="tree" id="tree">
+      <li>
+        Animals
+        <ul>
+          <li>
+            Mammals
+            <ul>
+              <li>Cows</li>
+              <li>Donkeys</li>
+              <li>Dogs</li>
+              <li>Tigers</li>
+            </ul>
+          </li>
+          <li>
+            Other
+            <ul>
+              <li>Snakes</li>
+              <li>Birds</li>
+              <li>Lizards</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        Fishes
+        <ul>
+          <li>
+            Aquarium
+            <ul>
+              <li>Guppy</li>
+              <li>Angelfish</li>
+            </ul>
+          </li>
+          <li>
+            Sea
+            <ul>
+              <li>Sea trout</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <script>
+      // document.addEventListener('click',function(event){
+      //   let ul = event.target.children[0];
+      //   if(ul){
+      //     ul.classList.toggle('hidden')
+
+      //   }else{
+      //     return;
+      //   }
+      // })
+
+      for (let li of document.querySelectorAll("li")) {
+        let span = document.createElement("span");
+        li.prepend(span);
+        span.append(span.nextSibling);
+      }
+
+      let tree = document.querySelector("#tree");
+      tree.addEventListener("click", function (event) {
+        if (event.target.tagName !== "SPAN") {
+          return;
+        }
+
+        let getUl = event.target.parentNode.querySelector("ul");
+        if (!getUl) {
+          return;
+        }
+        getUl.hidden = !getUl.hidden;
+      });
+    </script>
+  </body>
+</html>

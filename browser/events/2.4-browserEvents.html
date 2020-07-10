@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser events</title>
+    <style>
+      #menu {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 50%;
+        background-color: purple;
+      }
+
+      #menu li {
+        list-style-type: none;
+        padding: 2rem 1rem;
+      }
+
+      #menu li a {
+        padding: 1rem 0.8rem;
+        border-radius: 10px;
+        background-color: blue;
+        font-family: sans-serif;
+        text-decoration: none;
+        color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- preventing default -->
+
+    <a href="/" onclick="return false">Click Here</a>
+
+    <!-- or  -->
+
+    <a href="/" onclick="event.preventDefault()">click</a>
+
+    <!-- Example the menu -->
+
+    <ul id="menu" class="menu">
+      <li><a href="/html">HTML</a></li>
+      <li><a href="/javascript">JavaScript</a></li>
+      <li><a href="/css">CSS</a></li>
+    </ul>
+
+    <!-- 
+    Follow-up events
+
+    Certain events flow one into another. If we prevent the first event, there will be no second.
+
+    For instance, mousedown on an <input> field leads to focusing in it, and the focus event. If we prevent the mousedown event, there’s no focus.
+
+    Try to click on the first <input> below – the focus event happens. But if you click the second one, there’s no focus.
+   -->
+    <input type="text" onfocus="this.value = ''" value="Focus Works" />
+    <input
+      type="text"
+      onmousedown="return false"
+      value="focus won't work"
+      onfocus="this.value = ''"
+    />
+
+    <!-- event.defaultPrevented -->
+    <!-- 
+      The property event.defaultPrevented is true if the default action was prevented, and false otherwise.
+
+      There’s an interesting use case for it.
+
+      You remember in the chapter Bubbling and capturing we talked about event.stopPropagation() and why stopping bubbling is bad?
+
+      Sometimes we can use event.defaultPrevented instead, to signal other event handlers that the event was handled.
+
+     -->
+
+    <button>Right click shows browser context menu</button>
+    <button oncontextmenu="alert('Draw our Menu');return false;">
+      Right-click shows our context menu
+    </button>
+
+    <!-- Now, in addition to that context menu we’d like to implement document-wide context menu.
+
+Upon right click, the closest context menu should show up. -->
+
+      <p>Right-click here for the document context menu</p>
+      <button id="elem">Right-click here for the button context menu</button>
+    <script>
+      /*
+     * Many events automatically lead to certain actions performed by the browser.
+
+     * For instance:
+
+     * A click on a link – initiates navigation to its URL.
+     * A click on a form submit button – initiates its submission to the server.
+     * Pressing a mouse button over a text and moving it – selects the text.
+     * If we handle an event in JavaScript, we may not want the corresponding browser action to happen, and want to implement another behavior instead.
+    */
+
+      // 👀 preventing browser events
+      /*
+     * There are two ways to tell the browser we don’t want it to act:
+
+     * The main way is to use the event object. There’s a method event.preventDefault().
+
+     * If the handler is assigned using on<event> (not by addEventListener), then returning false also works the same.
+    */
+
+      // 👀 menu example
+      let menu = document.querySelector("#menu");
+      menu.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (event.target.tagName !== "A") {
+          return;
+        }
+        let hrefText = event.target.getAttribute("href");
+        // let hrefText = event.target.href;
+        console.log(hrefText);
+        alert(hrefText);
+
+        return false; // 👈 It won't work here. only works with on<event>
+      });
+
+      // menu.onclick = function(event){
+      //   // event.preventDefault()
+      //   if(event.target.tagName !== 'A'){
+      //     return;
+      //   }
+      //   let hrefText = event.target.getAttribute('href');
+      //   alert(hrefText)
+
+      //   // return false; // 👈 works here.
+      // }
+
+      // event.defaultPrevented
+      let elem = document.querySelector('#elem')
+      // console.log(elem);
+      
+      elem.oncontextmenu = function(event){
+        event.preventDefault()
+        alert('Button context menu')
+      }
+     
+
+
+      document.body.oncontextmenu = function(event){
+        if(event.defaultPrevented) return;
+        event.preventDefault();
+        alert('Body context menu')
+      }
+
+
+      document.oncontextmenu= function(event){
+        if(event.defaultPrevented) return;
+        event.preventDefault();
+        alert('Document context menu')
+      }
+
+    </script>
+  </body>
+</html>
