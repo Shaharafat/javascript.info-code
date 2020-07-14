@@ -80,7 +80,7 @@ describe("pow", function () {
  * Functions assert.* are used to check whether pow works as expected. Right here we’re using one of them – assert.equal, it compares arguments and yields an error if they are not equal. Here it checks that the result of pow(2, 3) equals 8. There are other types of comparisons and checks, that we’ll add later.
 
  * The specification can be executed, and it will run the test specified in it block. We’ll see that later.
-*/
+ */
 
 /*
  * The development flow

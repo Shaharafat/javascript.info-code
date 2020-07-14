@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dragn'Drop</title>
+    <style>
+      #frame {
+        width: 100;
+        overflow: scroll;
+        height: 400px;
+        background-color: chartreuse;
+
+        position: relative;
+      }
+      #gate {
+        cursor: pointer;
+        margin-bottom: 100px;
+        width: 83px;
+        height: 46px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="frame">
+      <img
+        src="https://en.js.cx/clipart/soccer-gate.svg"
+        id="gate"
+        class="droppable"
+      />
+      <img src="https://en.js.cx/clipart/ball.svg" id="ball" />
+    </div>
+
+    <script>
+      let currentDroppable = null;
+      let ball = document.querySelector("#ball");
+      /* 👀
+       * If we run the code, we can notice something strange. On the beginning of the drag’n’drop, the ball “forks”: we start dragging its “clone”.
+       * That’s because the browser has its own drag’n’drop support for images and some other elements. It runs automatically and conflicts with ours.
+       */
+      
+      ball.onmousedown = function (event) {
+        // ✋ 👀 Drag'n'Drop Algorithm
+        /*
+         *The basic Drag’n’Drop algorithm looks like this:
+
+         * On mousedown – prepare the element for moving, if needed (maybe create a clone of it, add a class to it or whatever).
+         * Then on mousemove move it by changing left/top with position:absolute.
+         * On mouseup – perform all actions related to finishing the drag’n’drop.
+         * These are the basics. Later we’ll see how to other features, such as highlighting current underlying elements while we drag over them.
+
+          Here’s the implementation of dragging
+        */
+
+        let shiftX = `${event.clientX - ball.getBoundingClientRect().left}`;
+        let shiftY = `${event.clientY - ball.getBoundingClientRect().top}`;
+        // (1) prepare to moving: make absolute and on top by z-index
+        ball.style.position = `absolute`;
+        ball.style.zIndex = 1000;
+
+        // move it out of any current parents directly into body
+        // to make it positioned relative to the body
+        // document.body.append(ball);
+
+        // center the ball at (pageX,pageY) coordinates
+        function moveAt(pageX, pageY) {
+          console.log(pageX, pageY);
+          ball.style.left = `${pageX - shiftX}px`;
+          ball.style.top = `${pageY - shiftY}px`;
+        }
+
+        // move absolutely positioned ball under the pointer
+        moveAt(event.pageX, event.pageY);
+
+        function onMouseMove(event) {
+          moveAt(event.pageX, event.pageY);
+
+          ball.hidden = true;
+          let elemBelow = document.elementFromPoint(
+            event.clientX,
+            event.clientY
+          );
+          ball.hidden = false;
+
+          if (!elemBelow) return;
+
+          let droppableBelow = elemBelow.closest(".droppable");
+          if (currentDroppable != droppableBelow) {
+            if (currentDroppable) {
+              leaveDroppable(currentDroppable);
+            }
+            currentDroppable = droppableBelow;
+            if (currentDroppable) {
+              enterDroppable(currentDroppable);
+            }
+          }
+        }
+
+        // move the ball on mousemove (2)
+        document.addEventListener("mousemove", onMouseMove);
+
+        // (3) drop the ball, remove unneeded handlers
+        ball.onmouseup = function () {
+          document.removeEventListener("mousemove", onMouseMove);
+          ball.onmouseup = null;
+        };
+
+        function enterDroppable(elem) {
+          elem.style.background = "pink";
+        }
+
+        function leaveDroppable(elem) {
+          elem.style.background = "";
+        }
+        
+        ball.ondragstart = function () {
+        return false;
+      };
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mouse Events</title>
+  </head>
+  <body>
+    <button id="id">Alt+Shift+Click on me!</button>
+
+    <!-- Coordinates clientX/Y, pageX/Y -->
+    <input
+      type="text"
+      onmousemove="this.value = event.clientX+':'+event.clientY"
+      value="mouse over me!"
+    />
+
+    <!-- 👀 preventing selection on mousedown -->
+    <!-- Double mouse click has a side-effect that may be disturbing in some interfaces: it selects text. -->
+    <span ondblclick="alert('dblclick'); return false;">Double-Click me!</span>
+
+    Before...
+    <b ondblclick="alert('click')" onmousedown="return false"
+      >Double-click me!</b
+    >
+    ...After
+
+    <!-- 👀 preventing copying -->
+    <div oncopy="alert('Copy forbidden!'); return false">
+      Dear User, The copying is forbidden for you. If you know JS or HTML, then
+      you can get everything from the page source though.
+    </div>
+
+    <script>
+      let button = document.querySelector("#id");
+      button.onclick = function (event) {
+        if (event.altKey && event.shiftKey) {
+          alert("Horray!");
+        }
+      };
+    </script>
+  </body>
+</html>

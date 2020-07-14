@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moving the mouse</title>
+
+    <style>
+      #parent,
+      #parent2 {
+        height: 200px;
+        width: 200px;
+        background-color: yellow;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 20px;
+      }
+      #child,
+      #child2 {
+        height: 120px;
+        width: 120px;
+        background-color: red;
+      }
+      #abs {
+        height: 50px;
+        width: 50px;
+        background-color: blueviolet;
+        position: absolute;
+        left: 50px;
+        top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="parent">
+      <div id="child"></div>
+    </div>
+    <div id="abs"></div>
+
+    <div id="parent2" style="margin-top: 1rem;">
+      <div id="child2"></div>
+    </div>
+    <script>
+      let parent = document.querySelector("#parent");
+      let child = document.querySelector("#child");
+      // 👀 Mouseout when leaving for a child
+      /* 
+        * According to the browser logic, the mouse cursor may be only over a single element at any time – the most nested one and top by z-index.
+
+          So if it goes to another element (even a descendant), then it leaves the previous one.
+
+          Please note another important detail of event processing.
+
+
+          You can see that very well in the example below: <div id="child"> is inside the <div id="parent">. There are mouseover/out handlers on #parent element that output event details.
+
+          If you move the mouse from #parent to #child, you see two events on #parent:
+
+          mouseout [target: parent] (left the parent), then
+          mouseover [target: child] (came to the child, bubbled).
+
+
+          If we don’t examine event.target inside the handlers, then it may seem that the mouse pointer left #parent element, and then immediately came back over it.
+
+          But that’s not the case! The pointer is still over the parent, it just moved deeper into the child element.
+
+          If there are some actions upon leaving the parent element, e.g. an animation runs in parent.onmouseout, we usually don’t want it when the pointer just goes deeper into #parent.
+
+          To avoid it, we can check relatedTarget in the handler and, if the mouse is still inside the element, then ignore such event.
+
+        */
+
+      parent.onmouseout = function (event) {
+        console.log(
+          `mouseout occurred on : ${event.target.id} related target is : ${event.relatedTarget.id}`
+        );
+      };
+
+      parent.onmouseover = function (event) {
+        console.log(
+          `mouseover occurred on : ${event.target.id} related target is : ${event.relatedTarget.id}`
+        );
+      };
+
+      // ✋ 👀 Events mouseenter and mouseleave
+      /* 
+       Events mouseenter/mouseleave are like mouseover/mouseout. They trigger when the mouse pointer enters/leaves the element.
+
+        But there are two important differences:
+
+        Transitions inside the element, to/from descendants, are not counted.
+        Events mouseenter/mouseleave do not bubble.
+      */
+      let parent2 = document.querySelector("#parent2");
+      let child2 = document.querySelector("#child2");
+
+      parent2.onmouseenter = function (event) {
+        console.log(
+          `Mouse entered on ${event.target.id} related target is : ${event.relatedTarget}`
+        );
+      };
+
+      parent2.onmouseleave = function (event) {
+        console.log(`Mouse leaved , related Target : ${event.relatedTarget.parentNode}`);
+      };
+
+      // ➗ =========================================
+
+      // <td> under the mouse right now (if any)
+      // let currentElem = null;
+
+      // table.onmouseover = function (event) {
+      //   // before entering a new element, the mouse always leaves the previous one
+      //   // if currentElem is set, we didn't leave the previous <td>,
+      //   // that's a mouseover inside it, ignore the event
+      //   if (currentElem) return;
+
+      //   let target = event.target.closest("td");
+
+      //   // we moved not into a <td> - ignore
+      //   if (!target) return;
+
+      //   // moved into <td>, but outside of our table (possible in case of nested tables)
+      //   // ignore
+      //   if (!table.contains(target)) return;
+
+      //   // hooray! we entered a new <td>
+      //   currentElem = target;
+      //   onEnter(currentElem);
+      // };
+
+      // table.onmouseout = function (event) {
+      //   // if we're outside of any <td> now, then ignore the event
+      //   // that's probably a move inside the table, but out of <td>,
+      //   // e.g. from <tr> to another <tr>
+      //   if (!currentElem) return;
+
+      //   // we're leaving the element – where to? Maybe to a descendant?
+      //   let relatedTarget = event.relatedTarget;
+
+      //   while (relatedTarget) {
+      //     // go up the parent chain and check – if we're still inside currentElem
+      //     // then that's an internal transition – ignore it
+      //     if (relatedTarget == currentElem) return;
+
+      //     relatedTarget = relatedTarget.parentNode;
+      //   }
+
+      //   // we left the <td>. really.
+      //   onLeave(currentElem);
+      //   currentElem = null;
+      // };
+
+      // // any functions to handle entering/leaving an element
+      // function onEnter(elem) {
+      //   elem.style.background = "pink";
+
+      //   // show that in textarea
+      //   text.value += `over -> ${currentElem.tagName}.${currentElem.className}\n`;
+      //   text.scrollTop = 1e6;
+      // }
+
+      // function onLeave(elem) {
+      //   elem.style.background = "";
+
+      //   // show that in textarea
+      //   text.value += `out <- ${elem.tagName}.${elem.className}\n`;
+      //   text.scrollTop = 1e6;
+      // }
+    </script>
+  </body>
+</html>

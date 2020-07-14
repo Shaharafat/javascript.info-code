@@ -3,7 +3,7 @@
 function makeUser() {
   return {
     name: 'John',
-    ref:this
+    ref:this;
   }
 }
 
@@ -15,7 +15,7 @@ function makeUsers() {
   return {
     name: 'John',
     ref() {
-      return this
+      return this;
     }
   }
 }
