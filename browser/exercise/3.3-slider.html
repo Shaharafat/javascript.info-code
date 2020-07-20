@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+    <style>
+      #slider {
+        border-radius: 5px;
+        background: #e0e0e0;
+        background: linear-gradient(left top, #e0e0e0, #eeeeee);
+        width: 310px;
+        height: 15px;
+      }
+      #thumb {
+        touch-action: none;
+        width: 10px;
+        height: 25px;
+        border-radius: 3px;
+        position: relative;
+        left: 10px;
+        top: -5px;
+        background: blue;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="slider" class="slider">
+      <div id="thumb"></div>
+    </div>
+
+    <script>
+      // ...your code...
+      /*
+     * Drag the blue thumb with the mouse and move it.
+
+      Important details:
+
+       * When the mouse button is pressed, during the dragging the mouse may go over or below the slider. The slider will still work (convenient for the user).
+       
+       * If the mouse moves very fast to the left or to the right, the thumb should stop exactly at the edge.
+    */
+
+      let slider = document.querySelector("#slider");
+      let thumb = document.querySelector("#thumb");
+      thumb.addEventListener("pointerdown", pointerDown);
+      thumb.addEventListener("dragstart", function (event) {
+        event.preventDefault();
+      });
+
+      function pointerDown(event) {
+        //make pointer active event if you remove pointer over it but didnot released the mouse. 
+        thumb.setPointerCapture(event.pointerId);
+        let shiftX = event.clientX - thumb.getBoundingClientRect().left;
+        // console.log(shiftX);
+        function moveAt(xValue) {
+          thumb.style.left = xValue - shiftX + "px";
+        }
+
+        thumb.addEventListener('pointermove',pointerMove);
+        thumb.addEventListener('pointerup',pointerUp)
+
+        function pointerMove(event) {
+          console.log(shiftX);
+          moveAt(event.pageX);
+          // if()
+        }
+
+        function pointerUp(event) {
+          thumb.removeEventListener("pointermove", pointerMove);
+        }
+      }
+    </script>
+  </body>
+</html>

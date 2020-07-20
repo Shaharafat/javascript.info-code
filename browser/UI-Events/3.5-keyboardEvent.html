@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KeyBoard Event</title>
+  </head>
+  <body>
+    <input type="text" id="text" />
+    <script>
+      let text = document.querySelector("#text");
+      // console.log(text);
+      text.addEventListener("keydown", function (event) {
+        // event.preventDefault();
+        if (event.code == "KeyZ" && (event.ctrlKey || event.metaKey)) {
+          console.log("undo!...");
+        }
+        if((event.key >= '0' && event.key <= '9') || event.key == '+' || event.key == '(' || event.key == ')' || event.key == '-'){
+          // text.value = event.key;
+        }else{
+          event.preventDefault();
+        }
+        console.dir(event);
+        console.log(event.code, event.key);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      #ball {
+        /* touch-action:none to stop when pointer cancel occurs */
+        touch-action: none;
+        position: absolute;
+      }
+      #frame {
+        width: 100;
+        overflow: scroll;
+        height: 400px;
+        background-color: chartreuse;
+
+        position: relative;
+      }
+      #gate {
+        cursor: pointer;
+        margin-bottom: 100px;
+        width: 83px;
+        height: 46px;
+      }
+    </style>
+    <title>Pointer Events DragAndDrop</title>
+  </head>
+  <body>
+    <div id="frame">
+      <!-- <img
+        src="https://en.js.cx/clipart/soccer-gate.svg"
+        id="gate"
+        class="droppable"
+      /> -->
+      <img src="https://en.js.cx/clipart/ball.svg" id="ball" />
+    </div>
+
+    <script>
+      let ball = document.querySelector("#ball");
+      let gate = document.querySelector("#gate");
+
+      ball.onpointerdown = function (event) {
+        ball.setPointerCapture(event.pointerId);
+        // ball.style.left = 100+'px';
+        let shiftX = event.clientX - ball.getBoundingClientRect().left;
+        let shiftY = event.clientY - ball.getBoundingClientRect().top;
+        console.log(shiftX, shiftY);
+
+        function moveAt(xValue, yValue) {
+          ball.style.left = xValue - shiftX + "px";
+          ball.style.top = yValue - shiftY + "px";
+        }
+
+        function pointermove(event) {
+          moveAt(event.pageX, event.pageY);
+        }
+
+        ball.addEventListener("pointermove", pointermove);
+
+        ball.onpointerup = function (event) {
+          ball.removeEventListener("pointermove", pointermove);
+        };
+      };
+
+      // preventing builtin dragging rules
+      ball.ondragstart = function (event) {
+        return false;
+      };
+
+      
+    </script>
+  </body>
+</html>

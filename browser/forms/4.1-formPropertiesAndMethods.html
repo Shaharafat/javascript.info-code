@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form properties</title>
+  </head>
+  <body>
+    <form action="" name="my">
+      <input type="text" name="one" value="1" />
+      <input type="text" name="two" value="2" />
+      <input type="text" name="age" value="10" />
+      <input type="text" name="age" value="20" />
+      <fieldset name="userFields">
+        <legend>info</legend>
+        <input name="login" type="text" />
+      </fieldset>
+
+      <select id="select">
+        <option value="apple">Apple</option>
+        <option value="pear">Pear</option>
+        <option value="banana">Banana</option>
+      </select>
+    </form>
+
+    <script>
+      /**
+           * Forms and control elements, such as <input> have a lot of special properties and events.
+
+      Working with forms will be much more convenient when we learn them.
+           * /
+
+    // Navigation form and elements
+    /**
+     * Document forms are members of the special collection document.forms.
+
+     * That’s a so-called “named collection”: it’s both named and ordered. We can use both the name or the number in the document to get the form.
+     * /
+      // document.forms.my - the form with name="my"
+      // document.forms[0] - the first form in the document
+    */
+      let form = document.forms.my; // form which name is my
+      let elem = form.elements.one;
+      console.log(elem.value);
+
+      /*
+    There may be multiple elements with the same name, that’s often the case with radio buttons.
+
+    In that case form.elements[name] is a collection, for instance:
+   */
+      let ageElems = form.elements.age;
+      console.log(ageElems[0]);
+
+      /*
+       * Fieldsets as “subforms”
+       * A form may have one or many <fieldset> elements inside it. They also have elements property that lists form controls inside them.
+       */
+
+      console.log(form.elements.login);
+      let fieldset = form.elements.userFields;
+      console.log(fieldset);
+      console.log(fieldset.elements.login == form.elements.login);
+
+
+      // select and option
+      /*
+       * A <select> element has 3 important properties:
+
+       * select.options – the collection of <option> subelements,
+       * select.value – the value of the currently selected <option>,
+       * select.selectedIndex – the number of the currently selected <option>.
+      */
+
+      console.log(select.options);
+
+      console.log(select.options[1].selected = true);
+      console.log(select.value);
+      console.log(select.selectedIndex);
+    </script>
+  </body>
+</html>

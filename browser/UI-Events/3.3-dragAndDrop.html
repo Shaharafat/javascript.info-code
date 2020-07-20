@@ -38,7 +38,7 @@
        * If we run the code, we can notice something strange. On the beginning of the drag’n’drop, the ball “forks”: we start dragging its “clone”.
        * That’s because the browser has its own drag’n’drop support for images and some other elements. It runs automatically and conflicts with ours.
        */
-      
+
       ball.onmousedown = function (event) {
         // ✋ 👀 Drag'n'Drop Algorithm
         /*
@@ -112,10 +112,10 @@
         function leaveDroppable(elem) {
           elem.style.background = "";
         }
-        
+
         ball.ondragstart = function () {
-        return false;
-      };
+          return false;
+        };
       };
     </script>
   </body>
