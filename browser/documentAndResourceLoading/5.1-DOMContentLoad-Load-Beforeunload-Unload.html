@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DOM</title>
+</head>
+<body>
+    <img src="https://en.js.cx/clipart/train.gif?speed=1&cache=0" alt="image" id="img"/>
+    <script>
+    /*
+     * The DOMContentLoaded event happens on the document object.
+
+     * We must use addEventListener to catch it: 
+    */
+
+    function ready(){
+      alert('DOM is ready');
+
+      alert(`Image size: ${img.offsetWidth}X${img.offsetHeight}`);
+    }
+
+
+    // DOMContentLoaded
+    document.addEventListener('DOMContentLoaded',ready);
+
+    // window.onload
+    window.onload = function(){
+      alert('Page loaded');
+
+      //image is loaded at this time.
+      alert(`Image size: ${img.offsetWidth}x${img.offsetHeight}`);
+    }
+
+
+    window.onbeforeunload=function(){
+      // return false;
+      return false;
+    }
+
+    console.log(document.readyState);
+    document.addEventListener('readystatechange',function(){console.log(document.readyState);})
+    </script>
+    <!-- <script async>
+      alert('library loaded, inline script executed.')
+    </script> -->
+</body>
+</html>

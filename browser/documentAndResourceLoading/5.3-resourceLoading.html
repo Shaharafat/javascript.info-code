@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resource Loading</title>
+</head>
+<body>
+  
+  <script>
+    /*
+      The browser allows us to track the loading of external resources – scripts, iframes, pictures and so on.
+
+      There are two events for it:
+
+      onload – successful load,
+      onerror – an error occurred.
+    */
+   let script= document.createElement('script');
+   // can load any script form any domain
+   script.src = "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js";
+   document.head.append(script);
+/*
+ vBut how to run the function that is declared inside that script? We need to wait until the script loads, and only then we can call it.
+*/
+
+
+  /*
+  script.onload
+  The main helper is the load event. It triggers after the script was loaded and executed.
+
+
+
+  So in onload we can use script variables, run functions etc.
+  */
+   script.onload =function(){
+     console.log(_);
+     console.log(_.chunk(['a', 'b', 'c', 'd'], 2));
+   }
+   
+  // script.onerror
+
+  let scrpt = document.createElement('script');
+  scrpt.src ="https://example.com/404.js"; // no such files.
+  document.head.append(scrpt)
+
+  scrpt.onerror = function(){
+    console.log("Error loading " + this.src);
+  }
+  </script>
+
+
+</body>
+</html>

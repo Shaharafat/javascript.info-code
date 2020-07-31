@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Submit And Method</title>
+  </head>
+  <body>
+    <form action="" onsubmit="alert('Submit!');return false">
+      First: Enter in the input field <input type="text" value="text" /><br />
+      <input type="submit" value="submit" onclick="alert('click')" />
+    </form>
+    <script>
+      let form = document.createElement("form");
+      form.action = "https://google.com/search";
+      form.method = "GET";
+      form.innerHTML = '<input name="q" value="test">';
+      document.body.append(form);
+      form.submit();
+    </script>
+  </body>
+</html>

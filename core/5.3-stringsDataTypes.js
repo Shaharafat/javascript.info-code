@@ -36,7 +36,7 @@ console.log(strr.indexOf('id', 4)); // 👈 look the second parameter.
 
 let str = "Widget";
 
-if (~str.indexOf("Widget")) { // ✅ used bitwise or.
+if (str.indexOf("Widget")) { // ✅ used bitwise or.
   console.log( 'Found it!' ); // works
 }
 
@@ -93,3 +93,8 @@ console.log('A'.localeCompare('-a'));
 console.log('✋'.charCodeAt());
 console.log('✋'.codePointAt());
 console.log(String.fromCodePoint(9995));
+
+
+
+
+

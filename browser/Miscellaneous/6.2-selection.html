@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selection</title>
+</head>
+<body>
+
+  <p id="p">Select me: <i>italic</i> and <b>bold</b></p>
+
+  Form <input type="text" id="form" disabled> - To <input type="text" id="to" disabled>
+
+  <script>
+    /*
+     * Selection
+    Range is a generic object for managing selection ranges. We may create such objects, pass them around – they do not visually select anything on their own.
+
+    The document selection is represented by Selection object, that can be obtained as window.getSelection() or document.getSelection().
+
+    A selection may include zero or more ranges. At least, the Selection API specification says so. In practice though, only Firefox allows to select multiple ranges in the document by using Ctrl+click (Cmd+click for Mac).
+
+
+    Other browsers support at maximum 1 range. As we’ll see, some of Selection methods imply that there may be many ranges, but again, in all browsers except Firefox, there’s at maximum 1.
+    */
+
+
+    /*
+     * Selection properties
+      Similar to a range, a selection has a start, called “anchor”, and the end, called “focus”.
+
+      The main selection properties are:
+
+      anchorNode – the node where the selection starts,
+      anchorOffset – the offset in anchorNode where the selection starts,
+      focusNode – the node where the selection ends,
+      focusOffset – the offset in focusNode where the selection ends,
+      isCollapsed – true if selection selects nothing (empty range), or doesn’t exist.
+      rangeCount – count of ranges in the selection, maximum 1 in all browsers except Firefox.
+    */
+
+     /*
+     * Selection events
+      There are events on to keep track of selection:
+
+      elem.onselectstart – when a selection starts on elem, e.g. the user starts moving mouse with pressed button.
+      Preventing the default action makes the selection not start.
+      document.onselectionchange – whenever a selection changes.
+      Please note: this handler can be set only on document.
+    */
+
+    document.onselectionchange = function(){
+      let {anchorNode,anchorOffset,focusNode,focusOffset} = document.getSelection();
+      console.log(document.getSelection());
+      console.log(document.getSelection().toString());
+      // form.value = `${anchorNode && anchorNode.data} : ${anchorOffset}`;
+      // to.value = `${focusNode && focusNode.data} : ${focusOffset}`;
+    };
+
+  </script>
+</body>
+</html>

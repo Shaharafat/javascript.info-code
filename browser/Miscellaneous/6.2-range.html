@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p id="p">Example: <i>italic</i> and <b>bold</b></p>
+    From: <input type="number" name="number" id="start" value="1" /> - To:
+    <input type="number" name="num2" id="end" value="4" />
+    <button id="button">Click to select</button>
+    <br><br>
+    <p id="p2">Example <i>italic</i> and <b id="b2">bold</b> </p>
+    <script>
+      let range = new Range();
+      // range.setStart(node,offset);
+      range.setStart(p, 0);
+      // range.setEnd(node,offset);
+      range.setEnd(p, 2);
+      button.onclick = function () {
+        let numberedRange = new Range();
+        numberedRange.setStart(p, start.value);
+        numberedRange.setEnd(p, end.value);
+        
+
+        document.getSelection().removeAllRanges();
+        document.getSelection().addRange(numberedRange);
+      };
+
+    
+
+      // apply this range for document selection
+      // document.getSelection().addRange(range); // uncomment when needed
+
+      // selecting parts of text nodes.
+      let p2Range = new Range();
+      // range.setStart(startContainer,startOffset);
+      p2Range.setStart(p2.firstChild,1);
+      // range.setEnd(endContainer,endOffset);
+
+      // p2Range.setEnd(b2.firstChild,3);
+      // p2Range.setEnd(p2.querySelector('b').firstChild,3);
+      // p2Range.setEnd(p2.firstChild,2)
+
+      // collapsed = true if start and end at same point
+      console.log(p2Range);
+      window.getSelection().addRange(p2Range);
+
+      // p2Range.selectNode(p)
+      // p2Range.selectNodeContents(p)
+      // p2Range.collapse(true)
+      let cloned = p2Range.cloneRange();
+      console.log(cloned);
+      
+    </script>
+  </body>
+</html>

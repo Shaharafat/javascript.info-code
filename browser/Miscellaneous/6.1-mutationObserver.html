@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mutation Observer</title>
+  </head>
+  <body>
+    <div contenteditable id="elem">Click and <b>edit</b>,please.</div>
+    <script>
+      let observer = new MutationObserver(mutationRecords=>{
+        console.log(mutationRecords);
+      })
+
+      // observe everything except attributes.
+      observer.observe(elem,{
+        childList: true, // observer direct children
+        subtree:true, // and lower descendants too
+        characterDataOldValue:true, // pass old data.
+      })
+
+    </script>
+  </body>
+</html>
